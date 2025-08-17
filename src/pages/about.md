@@ -3,35 +3,23 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-AstroPaper is a minimal, accessible and SEO-friendly blog theme built with [Astro](https://astro.build/) and [Tailwind CSS](https://tailwindcss.com/).
+> 区块链从来不缺新的技术，因为每时每刻都在产生新的技术
 
-![Astro Paper](public/astropaper-og.jpg)
+未来会有越来越多的项目，从基础到应用的开发，也会越来越多的人，他们都在使用各种区块链技术。而技术更新换代很快，我们有必要了解一下新的技术。
 
-AstroPaper provides a solid foundation for blogs, or even portfolios\_ with full markdown support, built-in dark mode, and a clean layout that works out-of-the-box.
+[链周志](/)就是在这个背景下产生的一个区块链信息周刊，专注于区块链技术分享与学习。
 
-The blog posts in this theme also serve as guides, docs or example articles\_ making AstroPaper a flexible starting point for your next content-driven site.
+我从2020年开始接触区块链，曾经的我经历过被骗，也经历过黑天鹅事件。当然，这是每个人都会经历的一个过程。
 
-## Features
+于是，我想创建一个能够帮助新入门的人了解和学习区块链，虽然我的技术有限，但是希望更多的人能够减少被骗几率。
 
-AstroPaper comes with a set of useful features that make content publishing easy and effective:
+我们每天都遨游在泛滥的信息中，少有人能够静下心来，认真看一些深刻的东西。诸如白皮书，文档之类。我们都喜欢看推特上面谁和谁在撕逼，谁的马甲又掉了。这样的快节奏信息，让我看到的是焦虑和浮躁。
 
-- SEO-friendly
-- Fast performance
-- Light & dark mode
-- Highly customizable
-- Organizable blog posts
-- Responsive & accessible
-- Static search with [PageFind](https://pagefind.app/)
-- Automatic social image generation
+希望你们能够看到如“为什么稳定币会再一次成为热点”，“RWA是什么？”等等的文章。又或者是“如何避免买到貔貅”，“如何保护自己的钱包”等等的技术分享。
 
-and so much more.
+创立这个周刊的初衷是为了让自己慢下来，练习一下写作技巧，其次在传播更多的关于区块链有深度的内容。
 
-## Show your support
+> 区块链是一个黑暗森林，没有人知道你转账的钱包地址背后的人
 
-If you like [AstroPaper](https://github.com/satnaing/astro-paper), consider giving it a star ⭐️.
-
-Found a bug 🐛 or have an improvement ✨ in mind? Feel free to open an [issue](https://github.com/satnaing/astro-paper/issues), submit a [pull request](https://github.com/satnaing/astro-paper/pulls) or start a [discussion](https://github.com/satnaing/astro-paper/discussions).
-
-If you find this theme helpful, you can also [sponsor me on GitHub](https://github.com/sponsors/satnaing) or [buy me a coffee](https://buymeacoffee.com/satnaing) to show your support — every penny counts.
-
-Kyay zuu! 🙏🏼
+—— [Jask]
+「链周志」创建人 · [2025]
