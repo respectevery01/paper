@@ -1,7 +1,7 @@
 ---
 author: Jask
 pubDatetime: 2025-08-17T06:53:51.336Z
-title: 链周志（第1期）：Story创始人辞职
+title: 链周志 Vol.1｜Story创始人Jason Zhao辞职
 slug: linklog-1
 featured: true
 draft: false
