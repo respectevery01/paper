@@ -2,7 +2,7 @@
 author: Jask
 pubDatetime: 2025-08-21T05:04:58.220Z
 title: 链周志 Vol.2｜OKB销毁之后，X Layer的生态真爆发了吗？
-slug: linklog-2
+slug: linklog-vol2-did-xlayer-explode-after-okb-destruction
 featured: true
 draft: false
 tags:
