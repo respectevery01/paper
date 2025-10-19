@@ -1,7 +1,7 @@
 export const SITE = {
-  website: "https://weekly.jask.cc", // replace this with your deployed domain
+  website: "https://weekly.jask.dev", // replace this with your deployed domain
   author: "Jask",
-  profile: "https://weekly.jask.cc",
+  profile: "https://weekly.jask.dev",
   desc: "区块链深度周报，每周一见。",
   title: "链周志",
   ogImage: "",
