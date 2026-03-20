@@ -3,7 +3,7 @@ author: Jask
 pubDatetime: 2026-03-20
 title: 链周志 Vol.3｜当 Meta 收购了 Moltbook
 slug: linklog-vol3-when-meta-acquired-moltbook
-featured: true
+featured: false
 draft: false
 tags:
   - meta
