@@ -11,7 +11,7 @@ tags:
   - moltbook
 description: 本期链周志聚焦Meta收购AI智能体社交平台Moltbook的战略意图与潜在风险，分析了Moltbook的平台特性、市场反响及其与OpenClaw的关联，并结合Meta近期缩减元宇宙投入、转向AI的战略调整，评估此次收购是“一步险棋”还是“智慧之举”，并对Meta在AI时代的布局策略进行了展望。
 ---
-![moltbook](/assets/images/moltbook.png)
+![moltbook](/assets/moltbook.png)
 # Meta收购Moltbook是一步险棋还是智慧？
 
 当地时间 3 月 10 日，Meta 宣布了对 AI 社交平台 Moltbook 收购的消息，据称该收购将于 3 月中旬完成。此次收购将使Moltbook联合创始人马特·施利希特（Matt Schlicht）与本·帕尔（Ben Parr）加入Meta超级智能实验室，该部门由前Scale AI首席执行官王立瑞（Alexandr Wang）领导。[^1]
