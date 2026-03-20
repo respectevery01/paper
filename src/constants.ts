@@ -20,13 +20,13 @@ export const SOCIALS: Social[] = [
 
   {
     name: "X",
-    href: "https://x.com/jaskdon",
+    href: "https://x.com/jask_don",
     linkTitle: `${SITE.title} on X`,
     icon: IconBrandX,
   },
   {
     name: "Mail",
-    href: "mailto:hi@jask.cc",
+    href: "mailto:hi@jask.dev",
     linkTitle: `Send an email to ${SITE.title}`,
     icon: IconMail,
   },
