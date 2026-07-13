@@ -54,6 +54,31 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
           主页
         </LinkButton>
       </p>
+    </div>
+  </Card>
+</section>
+
+<!-- JSON-LD: link author to jask.dev Person entity -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "链周志",
+  "alternateName": "LinkLog",
+  "url": "https://weekly.jask.dev",
+  "inLanguage": "zh-CN",
+  "author": {
+    "@type": "Person",
+    "name": "Jask",
+    "url": "https://jask.dev",
+    "sameAs": ["https://x.com/jask_don", "https://github.com/respectevery01"]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Jask",
+    "url": "https://jask.dev"
+  }
+})} />
+      </p>
       {
         // only display if at least one social link is enabled
         SOCIALS.length > 0 && (

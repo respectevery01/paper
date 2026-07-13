@@ -286,3 +286,22 @@ const nextPost =
     window.scrollTo({ left: 0, top: 0, behavior: "instant" })
   );
 </script>
+<!-- JSON-LD: Article with author Person linked to jask.dev -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "datePublished": new Date(post.data.pubDatetime).toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": "Jask",
+    "url": "https://jask.dev",
+    "sameAs": ["https://x.com/jask_don", "https://github.com/respectevery01"]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Jask",
+    "url": "https://jask.dev"
+  }
+})} />
