@@ -4,6 +4,7 @@ pubDatetime: 2025-08-17T06:53:51.336Z
 title: 链周志 Vol.1｜Story创始人Jason Zhao辞职
 slug: linklog-vol1-jason-zhao-resigns
 featured: true
+series: 链周志
 draft: false
 tags:
   - Story
