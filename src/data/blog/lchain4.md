@@ -4,6 +4,7 @@ pubDatetime: 2026-07-13T18:00:00.000Z
 title: 链周志 Vol.4｜Strategy卖比特币了，"永不卖出"是个笑话？
 slug: linklog-vol4-strategy-sells-bitcoin
 featured: true
+series: 链周志
 draft: false
 tags:
   - Bitcoin
