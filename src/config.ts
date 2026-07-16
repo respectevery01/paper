@@ -2,7 +2,7 @@ export const SITE = {
   website: "https://weekly.jask.dev", // replace this with your deployed domain
   author: "Jask",
   profile: "https://weekly.jask.dev",
-  desc: "Web3 深度分析 — 链周志每周快评，深潜长文拆解。",
+  desc: "链周志是 Jask 的 Web3 深度分析站点。链周志 Vol 每周快评追踪行业大事，深潜系列用五千字以上长文拆解项目本质。第一时间、独立判断、不搬运通稿。",
   title: "链周志",
   ogImage: "",
   lightAndDarkMode: true,
