@@ -5,8 +5,8 @@ title: Story Protocol 之死：一个 2.16 亿美元 Web3 项目的叙事重生
 slug: story-protocol-is-dead-data-foundation-reborn
 featured: true
 draft: false
+series: 深潜
 tags:
-  - 深潜
   - Story Protocol
   - PIP Labs
   - Web3
