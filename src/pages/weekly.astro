@@ -1,0 +1,28 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Card from "@/components/Card.astro";
+import getSortedPosts from "@/utils/getSortedPosts";
+
+const posts = await getCollection("blog");
+const sortedPosts = getSortedPosts(posts);
+const weeklyPosts = sortedPosts.filter(({ data }) => data.series === "链周志");
+---
+
+<Layout title="链周志 Vol · 链周志">
+  <Header />
+  <main id="main-content" class="pt-8 pb-6">
+    <section class="pt-4 pb-6">
+      <h1 class="text-3xl font-bold sm:text-4xl mb-2">链周志 Vol</h1>
+      <p class="opacity-60 text-sm">每周一条 Web3 快评</p>
+    </section>
+    <ul>
+      {weeklyPosts.map(data => (
+        <Card variant="h3" {...data} />
+      ))}
+    </ul>
+  </main>
+  <Footer />
+</Layout>
