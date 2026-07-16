@@ -1,11 +1,12 @@
 ---
 author: Jask
-pubDatetime: 2026-07-17T00:00:00.000Z
+pubDatetime: 2026-07-16T17:00:00.000Z
 title: Story Protocol 之死：一个 2.16 亿美元 Web3 项目的叙事重生
 slug: story-protocol-is-dead-data-foundation-reborn
 featured: true
 draft: false
 tags:
+  - 深潜
   - Story Protocol
   - PIP Labs
   - Web3
