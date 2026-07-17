@@ -90,7 +90,7 @@ function formatDate(date: Date) {
     box-shadow: 0 4px 24px rgba(0,0,0,0.12);
     object-fit: cover;
   }
-  :global(.dark) .podcast-cover {
+  :global([data-theme="dark"]) .podcast-cover {
     box-shadow: 0 4px 24px rgba(0,0,0,0.4);
   }
   .podcast-hero-text { flex: 1; min-width: 200px; }
@@ -124,10 +124,10 @@ function formatDate(date: Date) {
   .podcast-episode-card:hover {
     background: hsl(0 0% 93%);
   }
-  :global(.dark) .podcast-episode-card {
+  :global([data-theme="dark"]) .podcast-episode-card {
     background: hsl(228 14% 13%);
   }
-  :global(.dark) .podcast-episode-card:hover {
+  :global([data-theme="dark"]) .podcast-episode-card:hover {
     background: hsl(228 14% 17%);
   }
   .episode-link {
@@ -188,7 +188,7 @@ function formatDate(date: Date) {
   }
 
   /* Dark mode audio player */
-  :global(.dark) audio {
+  :global([data-theme="dark"]) audio {
     filter: invert(0.92) hue-rotate(180deg);
   }
 </style>

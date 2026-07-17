@@ -106,14 +106,14 @@ function formatDate(date: Date) {
   .episode-source-link:hover {
     background: hsl(0 0% 93%);
   }
-  :global(.dark) .episode-source-link {
+  :global([data-theme="dark"]) .episode-source-link {
     background: hsl(228 14% 13%);
   }
-  :global(.dark) .episode-source-link:hover {
+  :global([data-theme="dark"]) .episode-source-link:hover {
     background: hsl(228 14% 17%);
   }
   /* Dark mode audio player */
-  :global(.dark) audio {
+  :global([data-theme="dark"]) audio {
     filter: invert(0.92) hue-rotate(180deg);
   }
 </style>
