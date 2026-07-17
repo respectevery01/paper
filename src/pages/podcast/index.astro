@@ -9,7 +9,7 @@ const episodes = (await getCollection("podcast"))
   .filter(({ data }) => !data.draft)
   .sort((a, b) => b.data.episode - a.data.episode);
 
-const COVER_URL = "https://podcast-audio.2849288402.workers.dev/cover-3000.png";
+const COVER_URL = "https://podcast.jask.dev/cover-3000.png";
 
 function formatDate(date: Date) {
   return new Date(date).toLocaleDateString("zh-CN", {

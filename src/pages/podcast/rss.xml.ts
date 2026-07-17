@@ -14,7 +14,7 @@ export const GET: APIRoute = async ({ site }) => {
     category: "Technology",
     subcategory: "Crypto",
     language: "zh",
-    cover: "https://podcast-audio.2849288402.workers.dev/cover-3000.png",
+    cover: "https://podcast.jask.dev/cover-3000.png",
     siteUrl: site?.toString() ?? "https://weekly.jask.dev/",
   };
 
