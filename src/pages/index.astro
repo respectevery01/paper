@@ -94,62 +94,40 @@ const recentWeekly = weeklyPosts.filter(({ data }) => !data.featured);
 
     {
       featuredPosts.length > 0 && (
-        <>
-          <section id="featured" class="pt-12 pb-6">
-            <h2 class="text-2xl font-semibold tracking-wide">热榜</h2>
-            <ul>
-              {featuredPosts.map(data => (
-                <Card variant="h3" {...data} />
-              ))}
-            </ul>
-          </section>
-          <Hr />
-        </>
+        <section id="featured" class="pt-8 pb-6">
+          <h2 class="text-2xl font-semibold tracking-wide">热榜</h2>
+          <ul>
+            {featuredPosts.map(data => (
+              <Card variant="h3" {...data} />
+            ))}
+          </ul>
+        </section>
       )
     }
 
     {
       deepDivePosts.length > 0 && (
-        <>
-          <section id="deep-dive" class="pt-12 pb-6">
-            <h2 class="text-2xl font-semibold tracking-wide">深潜</h2>
-            <p class="text-sm opacity-60 mt-1 mb-4">长文深度拆解，一刀切开看里面</p>
-            <ul>
-              {deepDivePosts.map(data => (
-                <Card variant="h3" {...data} />
-              ))}
-            </ul>
-          </section>
-          <Hr />
-        </>
-      )
-    }
-
-    {
-      featuredWeekly.length > 0 && (
-        <>
-          <section id="featured" class="pt-12 pb-6">
-            <h2 class="text-2xl font-semibold tracking-wide">链周志 Vol</h2>
-            <p class="text-sm opacity-60 mt-1 mb-4">每周一条 Web3 快评</p>
-            <ul>
-              {featuredWeekly.map(data => (
-                <Card variant="h3" {...data} />
-              ))}
-            </ul>
-          </section>
-          {recentWeekly.length > 0 && <Hr />}
-        </>
-      )
-    }
-
-    {
-      recentWeekly.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
+        <section id="deep-dive" class="pt-8 pb-6">
+          <h2 class="text-2xl font-semibold tracking-wide">深潜</h2>
+          <p class="text-sm opacity-60 mt-1 mb-4">长文深度拆解，一刀切开看里面</p>
           <ul>
-            {recentWeekly.map(
-              (data, index) =>
-                index < SITE.postPerIndex && <Card variant="h3" {...data} />
-            )}
+            {deepDivePosts.map(data => (
+              <Card variant="h3" {...data} />
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      weeklyPosts.length > 0 && (
+        <section id="weekly" class="pt-8 pb-6">
+          <h2 class="text-2xl font-semibold tracking-wide">链周志 Vol</h2>
+          <p class="text-sm opacity-60 mt-1 mb-4">每周一条 Web3 快评</p>
+          <ul>
+            {weeklyPosts.slice(0, SITE.postPerIndex).map(data => (
+              <Card variant="h3" {...data} />
+            ))}
           </ul>
         </section>
       )
