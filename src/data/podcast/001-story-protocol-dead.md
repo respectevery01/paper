@@ -6,7 +6,7 @@ pubDatetime: 2026-07-17T00:00:00Z
 audioUrl: "https://podcast-audio.2849288402.workers.dev/episodes/story-protocol-dead.mp3"
 duration: "18:32"
 audioSize: 14517468
-articleSlug: "story-protocol-dead"
+articleSlug: "story-protocol-is-dead-data-foundation-reborn"
 season: 1
 ---
 
