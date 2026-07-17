@@ -107,6 +107,27 @@ function formatDate(date: Date) {
     background: hsl(0 0% 93%);
   }
   :global(.dark) .episode-source-link {
-    background: hsl(228 20% 14%);
+    background: hsl(228 14% 13%);
+  }
+  :global(.dark) .episode-source-link:hover {
+    background: hsl(228 14% 17%);
+  }
+  /* Dark mode audio player */
+  :global(.dark) audio {
+    filter: invert(0.92) hue-rotate(180deg);
   }
 </style>
+
+<script>
+  // Fix: re-init audio after Astro View Transitions swap
+  function initAudio() {
+    document.querySelectorAll('audio').forEach(a => {
+      const src = a.getAttribute('src');
+      if (src && !a.readyState) {
+        a.load();
+      }
+    });
+  }
+  initAudio();
+  document.addEventListener('astro:after-swap', initAudio);
+</script>
