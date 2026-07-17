@@ -25,7 +25,7 @@ const recentWeekly = weeklyPosts.filter(({ data }) => !data.featured);
 <Layout>
   <Header />
   <main id="main-content" data-layout="index">
-    <section id="hero" class="pt-8 pb-6">
+    <section id="hero" class="pt-8 pb-6 text-center">
       <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
         链周志
       </h1>
@@ -56,9 +56,17 @@ const recentWeekly = weeklyPosts.filter(({ data }) => !data.featured);
           主页
         </LinkButton>
       </p>
-    </div>
-  </Card>
-</section>
+
+      {
+        // only display if at least one social link is enabled
+        SOCIALS.length > 0 && (
+          <div class="mt-4 flex flex-col items-center sm:flex-row sm:items-center sm:justify-center">
+            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">社交媒体:</div>
+            <Socials />
+          </div>
+        )
+      }
+    </section>
 
 <!-- JSON-LD: link author to jask.dev Person entity -->
 <script type="application/ld+json" set:html={JSON.stringify({
@@ -80,17 +88,6 @@ const recentWeekly = weeklyPosts.filter(({ data }) => !data.featured);
     "url": "https://jask.dev"
   }
 })} />
-      </p>
-      {
-        // only display if at least one social link is enabled
-        SOCIALS.length > 0 && (
-          <div class="mt-4 flex flex-col sm:flex-row sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">社交媒体:</div>
-            <Socials />
-          </div>
-        )
-      }
-    </section>
 
     <Hr />
 
