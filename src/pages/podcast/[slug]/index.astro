@@ -1,20 +1,20 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import BackButton from "@/components/BackButton.astro";
+import { slugifyStr } from "@/utils/slugify";
 
 export async function getStaticPaths() {
   const episodes = await getCollection("podcast");
-  return episodes.map((entry) => ({
-    params: { slug: entry.id },
-    props: { entry },
+  return episodes.map((ep) => ({
+    params: { slug: ep.id },
+    props: { episode: ep.data, content: ep.body },
   }));
 }
 
-const { entry } = Astro.props;
-const { data } = entry;
-const { Content } = await render(entry);
+const { episode, content } = Astro.props;
 
 function formatDate(date: Date) {
   return new Date(date).toLocaleDateString("zh-CN", {
@@ -25,30 +25,30 @@ function formatDate(date: Date) {
 }
 ---
 
-<Layout title={`${data.title} · 链周志播客`}>
+<Layout title={`${episode.title} · 链周志播客 · weekly.jask.dev`}>
   <Header />
-  <main id="main-content" class="max-w-3xl mx-auto px-4">
-    <a href="/podcast/" class="back-link">← 全部剧集</a>
+  <main id="main-content" class="mx-auto max-w-3xl px-5">
+    <BackButton href="/podcast/" text="播客" />
+    <article class="podcast-detail">
+      <p class="episode-num">EP {String(episode.episode).padStart(3, "0")} · S{episode.season}</p>
+      <h1 transition:name={slugifyStr(episode.title)} class="text-2xl font-bold sm:text-3xl mb-2">{episode.title}</h1>
+      <p class="episode-date">{formatDate(episode.pubDatetime)} · {episode.duration}</p>
 
-    <article class="episode-detail">
-      <div class="episode-header">
-        <div class="episode-badge">EP {String(data.episode).padStart(3, "0")} · S{data.season}</div>
-        <h1 class="episode-h1">{data.title}</h1>
-        <p class="episode-date">{formatDate(data.pubDatetime)} · {data.duration}</p>
+      <div class="episode-player-wrap">
+        <audio id="podcast-audio" controls preload="metadata" src={episode.audioUrl}></audio>
       </div>
 
-      <div class="player-wrap">
-        <audio controls preload="metadata" src={data.audioUrl} class="episode-audio"></audio>
+      {episode.transcriptUrl && (
+        <div id="transcript-panel" class="transcript-panel">
+          <div id="transcript-list" class="transcript-list" data-transcript-url={episode.transcriptUrl}></div>
+        </div>
+      )}
+
+      <div class="episode-desc-text" set:html={content}>
       </div>
 
-      <p class="episode-description">{data.description}</p>
-
-      <div class="episode-content prose-episode">
-        <Content />
-      </div>
-
-      {data.articleSlug && (
-        <a href={`/posts/${data.articleSlug}/`} class="read-original">
+      {episode.articleSlug && (
+        <a href={`/posts/${episode.articleSlug}/`} class="episode-source-link">
           ← 阅读原文
         </a>
       )}
@@ -58,83 +58,109 @@ function formatDate(date: Date) {
 </Layout>
 
 <style>
-  .back-link {
-    display: inline-block;
-    margin-top: 1.5rem;
-    font-size: 0.85rem;
-    color: var(--accent, hsl(228 80% 60%));
-    text-decoration: none;
-  }
-  .back-link:hover { text-decoration: underline; }
-
-  .episode-detail { padding: 1rem 0 3rem; }
-  .episode-header { margin-bottom: 1.5rem; }
-  .episode-badge {
+  .podcast-detail { padding: 1.5rem 0 3rem; }
+  .episode-num {
     font-family: var(--font-mono, monospace);
-    font-size: 0.7rem;
-    font-weight: 700;
+    font-size: 0.8rem; font-weight: 700;
     color: var(--accent, hsl(228 80% 60%));
-    letter-spacing: 0.05em;
-    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em; margin-bottom: 0.5rem;
   }
-  .episode-h1 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1.35;
-    margin-bottom: 0.4rem;
+  .episode-date { font-size: 0.85rem; opacity: 0.55; margin-bottom: 1.5rem; }
+  .episode-player-wrap { margin-bottom: 1rem; }
+  .episode-player-wrap audio { width: 100%; }
+
+  .transcript-panel {
+    max-height: 420px; overflow-y: auto;
+    border-radius: 0.75rem; background: hsl(0 0% 96%);
+    padding: 1rem 1.25rem; margin-bottom: 2rem;
+    scroll-behavior: smooth; scrollbar-width: thin;
   }
-  .episode-date {
-    font-size: 0.82rem;
-    opacity: 0.55;
+  :global([data-theme="dark"]) .transcript-panel { background: hsl(228 14% 10%); }
+  .transcript-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .transcript-line {
+    font-size: 0.88rem; line-height: 1.6;
+    color: hsl(0 0% 45%); transition: all 0.3s ease;
+    padding: 0.3rem 0.6rem; border-radius: 0.4rem; cursor: pointer;
   }
-  .player-wrap {
-    margin: 1.5rem 0;
-    padding: 1.25rem;
-    border-radius: 0.75rem;
-    background: hsl(0 0% 96%);
+  :global([data-theme="dark"]) .transcript-line { color: hsl(0 0% 55%); }
+  .transcript-line:hover { color: hsl(0 0% 30%); background: hsl(0 0% 92%); }
+  :global([data-theme="dark"]) .transcript-line:hover { color: hsl(0 0% 70%); background: hsl(228 14% 14%); }
+  .transcript-line.active {
+    color: var(--accent, hsl(228 80% 60%));
+    font-weight: 600; background: hsl(0 0% 90%); transform: scale(1.02);
   }
-  :global(.dark) .player-wrap {
-    background: hsl(228 20% 14%);
+  :global([data-theme="dark"]) .transcript-line.active { color: hsl(228 80% 75%); background: hsl(228 14% 16%); }
+  .transcript-speaker { font-size: 0.7rem; font-weight: 600; opacity: 0.5; margin-right: 0.4rem; }
+
+  .episode-desc-text { font-size: 0.9rem; line-height: 1.75; opacity: 0.85; }
+  .episode-desc-text p { margin-bottom: 1rem; }
+  .episode-desc-text :global(h2) { font-size: 1.05rem; font-weight: 600; margin: 1.5rem 0 0.75rem; }
+  .episode-desc-text :global(ul) { padding-left: 1.2rem; margin-bottom: 1rem; }
+  .episode-desc-text :global(li) { margin-bottom: 0.3rem; }
+  .episode-source-link {
+    display: inline-block; margin-top: 1.5rem;
+    font-size: 0.85rem; color: var(--accent, hsl(228 80% 60%));
+    text-decoration: none; padding: 0.5rem 1rem;
+    border-radius: 999px; background: hsl(0 0% 96%);
   }
-  .episode-audio {
-    width: 100%;
-    height: 40px;
-  }
-  .episode-description {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    opacity: 0.8;
-    margin-bottom: 1.5rem;
-  }
-  .episode-content {
-    font-size: 0.88rem;
-    line-height: 1.7;
-  }
-  .episode-content :global(h2) {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-  .episode-content :global(ul) {
-    padding-left: 1.2rem;
-    list-style: disc;
-  }
-  .episode-content :global(li) {
-    margin-bottom: 0.3rem;
-    opacity: 0.8;
-  }
-  .read-original {
-    display: inline-block;
-    margin-top: 2rem;
-    padding: 0.6rem 1.2rem;
-    border-radius: 999px;
-    background: var(--accent, hsl(228 80% 60%));
-    color: white;
-    font-size: 0.85rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
-  .read-original:hover { opacity: 0.85; }
+  .episode-source-link:hover { background: hsl(0 0% 93%); }
+  :global([data-theme="dark"]) .episode-source-link { background: hsl(228 14% 13%); }
+  :global([data-theme="dark"]) .episode-source-link:hover { background: hsl(228 14% 17%); }
+  :global([data-theme="dark"]) audio { filter: invert(0.92) hue-rotate(180deg); }
 </style>
+
+<script>
+  function initTranscript() {
+    const audio = document.getElementById('podcast-audio');
+    const list = document.getElementById('transcript-list');
+    const panel = document.getElementById('transcript-panel');
+    if (!audio || !list) return;
+
+    let rounds = null;
+    let lines = [];
+    const url = list.dataset.transcriptUrl;
+    if (!url) return;
+
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        rounds = data.rounds || [];
+        list.innerHTML = '';
+        rounds.forEach((round, i) => {
+          const speakerShort = round.speaker.includes('female') ? '♀' : '♂';
+          const div = document.createElement('div');
+          div.className = 'transcript-line';
+          div.dataset.index = i;
+          div.innerHTML = '<span class="transcript-speaker">' + speakerShort + '</span>' + round.text;
+          div.addEventListener('click', () => { audio.currentTime = round.start_time; });
+          list.appendChild(div);
+          lines.push(div);
+        });
+      })
+      .catch(() => {});
+
+    audio.addEventListener('timeupdate', () => {
+      if (!rounds || rounds.length === 0) return;
+      const t = audio.currentTime;
+      let activeIdx = -1;
+      for (let i = 0; i < rounds.length; i++) {
+        if (rounds[i].start_time <= t) activeIdx = i;
+        else break;
+      }
+      lines.forEach((line, i) => {
+        if (i === activeIdx) {
+          line.classList.add('active');
+          if (panel) {
+            const lineTop = line.offsetTop - panel.offsetTop;
+            panel.scrollTop = lineTop - panel.clientHeight / 2 + line.clientHeight / 2;
+          }
+        } else {
+          line.classList.remove('active');
+        }
+      });
+    });
+  }
+
+  initTranscript();
+  document.addEventListener('astro:after-swap', initTranscript);
+</script>
