@@ -39,13 +39,10 @@ function formatDate(date: Date) {
       </div>
 
       {episode.transcriptUrl && (
-        <div id="transcript-panel" class="transcript-panel">
-          <div id="transcript-list" class="transcript-list" data-transcript-url={episode.transcriptUrl}></div>
-        </div>
+        <div id="transcript-scroll" class="transcript-scroll" data-transcript-url={episode.transcriptUrl}></div>
       )}
 
-      <div class="episode-desc-text" set:html={content}>
-      </div>
+      <div class="episode-desc-text" set:html={content}></div>
 
       {episode.articleSlug && (
         <a href={`/posts/${episode.articleSlug}/`} class="episode-source-link">
@@ -57,194 +54,178 @@ function formatDate(date: Date) {
   <Footer />
 </Layout>
 
-<style>
-  .podcast-detail {
-    padding: 1.5rem 0 3rem;
-  }
+<style is:global>
+  .podcast-detail { padding: 1.5rem 0 3rem; }
   .episode-num {
     font-family: var(--font-mono, monospace);
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.8rem; font-weight: 700;
     color: var(--accent, hsl(228 80% 60%));
-    letter-spacing: 0.05em;
-    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em; margin-bottom: 0.5rem;
   }
-  .episode-date {
-    font-size: 0.85rem;
-    opacity: 0.55;
-    margin-bottom: 1.5rem;
+  .episode-date { font-size: 0.85rem; opacity: 0.55; margin-bottom: 1.5rem; }
+  .episode-player-wrap { margin-bottom: 0.5rem; position: sticky; top: 0; z-index: 10; }
+  .episode-player-wrap audio { width: 100%; }
+  .episode-player-wrap.sticky-audio {
+    background: hsl(0 0% 100%);
+    padding: 0.5rem 0;
+    margin: 0 -1.25rem;
+    padding-left: 1.25rem; padding-right: 1.25rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   }
-  .episode-player-wrap {
-    margin-bottom: 1rem;
+  [data-theme="dark"] .episode-player-wrap.sticky-audio {
+    background: hsl(228 14% 11%);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
   }
-  .episode-player-wrap audio {
-    width: 100%;
-  }
+  [data-theme="dark"] audio { filter: invert(0.92) hue-rotate(180deg); }
 
-  /* Transcript panel — karaoke/lyrics style */
-  .transcript-panel {
-    max-height: 420px;
+  /* ── Lyrics / transcript scroll ── */
+  .transcript-scroll {
+    max-height: 500px;
     overflow-y: auto;
-    border-radius: 0.75rem;
-    background: hsl(0 0% 96%);
-    padding: 1rem 1.25rem;
+    padding: 2rem 0;
     margin-bottom: 2rem;
     scroll-behavior: smooth;
-    scrollbar-width: thin;
+    mask-image: linear-gradient(to bottom,
+      transparent 0%, hsl(0 0% 0%) 12%, hsl(0 0% 0%) 88%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%, hsl(0 0% 0%) 12%, hsl(0 0% 0%) 88%, transparent 100%);
+    scrollbar-width: none;
   }
-  :global([data-theme="dark"]) .transcript-panel {
-    background: hsl(228 14% 10%);
-  }
-  .transcript-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-  .transcript-line {
-    font-size: 0.88rem;
-    line-height: 1.6;
-    color: hsl(0 0% 45%);
-    transition: all 0.3s ease;
-    padding: 0.3rem 0.6rem;
-    border-radius: 0.4rem;
+  .transcript-scroll::-webkit-scrollbar { display: none; }
+
+  .lyric-line {
+    padding: 0.55rem 0;
     cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.35;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    transform-origin: left center;
+    will-change: opacity, transform, filter;
   }
-  :global([data-theme="dark"]) .transcript-line {
-    color: hsl(0 0% 55%);
-  }
-  .transcript-line:hover {
-    color: hsl(0 0% 30%);
-    background: hsl(0 0% 92%);
-  }
-  :global([data-theme="dark"]) .transcript-line:hover {
-    color: hsl(0 0% 70%);
-    background: hsl(228 14% 14%);
-  }
-  .transcript-line.active {
-    color: var(--accent, hsl(228 80% 60%));
+  .lyric-line:hover { opacity: 0.6; }
+
+  .lyric-line.active {
+    opacity: 1;
+    font-size: 1.15rem;
     font-weight: 600;
-    background: hsl(0 0% 90%);
-    transform: scale(1.02);
+    filter: none;
   }
-  :global([data-theme="dark"]) .transcript-line.active {
-    color: hsl(228 80% 75%);
-    background: hsl(228 14% 16%);
-  }
-  .transcript-speaker {
-    font-size: 0.7rem;
-    font-weight: 600;
-    opacity: 0.5;
-    margin-right: 0.4rem;
+  .lyric-line.near {
+    opacity: 0.6;
   }
 
-  .episode-desc-text {
-    font-size: 0.9rem;
-    line-height: 1.75;
-    opacity: 0.85;
-  }
-  .episode-desc-text p {
-    margin-bottom: 1rem;
-  }
-  .episode-desc-text :global(h2) {
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin: 1.5rem 0 0.75rem;
-  }
-  .episode-desc-text :global(ul) {
-    padding-left: 1.2rem;
-    margin-bottom: 1rem;
-  }
-  .episode-desc-text :global(li) {
-    margin-bottom: 0.3rem;
-  }
-  .episode-source-link {
+  .lyric-speaker {
     display: inline-block;
-    margin-top: 1.5rem;
-    font-size: 0.85rem;
-    color: var(--accent, hsl(228 80% 60%));
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 999px;
-    background: hsl(0 0% 96%);
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-right: 0.6rem;
+    vertical-align: middle;
+    transition: all 0.4s ease;
   }
-  .episode-source-link:hover {
-    background: hsl(0 0% 93%);
+  .lyric-speaker.male { background: hsl(210 60% 55%); }
+  .lyric-speaker.female { background: hsl(330 60% 60%); }
+  .lyric-line.active .lyric-speaker { width: 8px; height: 8px; }
+
+  .episode-desc-text { font-size: 0.9rem; line-height: 1.75; opacity: 0.85; }
+  .episode-desc-text p { margin-bottom: 1rem; }
+  .episode-desc-text h2 { font-size: 1.05rem; font-weight: 600; margin: 1.5rem 0 0.75rem; }
+  .episode-desc-text ul { padding-left: 1.2rem; margin-bottom: 1rem; }
+  .episode-desc-text li { margin-bottom: 0.3rem; }
+  .episode-source-link {
+    display: inline-block; margin-top: 1.5rem;
+    font-size: 0.85rem; color: var(--accent, hsl(228 80% 60%));
+    text-decoration: none; padding: 0.5rem 1rem;
+    border-radius: 999px; background: hsl(0 0% 96%);
   }
-  :global([data-theme="dark"]) .episode-source-link {
-    background: hsl(228 14% 13%);
-  }
-  :global([data-theme="dark"]) .episode-source-link:hover {
-    background: hsl(228 14% 17%);
-  }
-  /* Dark mode audio player */
-  :global([data-theme="dark"]) audio {
-    filter: invert(0.92) hue-rotate(180deg);
-  }
+  .episode-source-link:hover { background: hsl(0 0% 93%); }
+  [data-theme="dark"] .episode-source-link { background: hsl(228 14% 13%); }
+  [data-theme="dark"] .episode-source-link:hover { background: hsl(228 14% 17%); }
 </style>
 
 <script>
   function initTranscript() {
     const audio = document.getElementById('podcast-audio');
-    const list = document.getElementById('transcript-list');
-    const panel = document.getElementById('transcript-panel');
-    if (!audio || !list) return;
+    const container = document.getElementById('transcript-scroll');
+    if (!audio || !container) return;
 
-    let rounds = null;
-    let lines = [];
-
-    // Fetch transcript JSON
-    const url = list.dataset.transcriptUrl;
+    const url = container.dataset.transcriptUrl;
     if (!url) return;
+
+    let rounds = [];
+    let lineEls = [];
+
+    // Add top/bottom padding spacers for mask effect
+    const spacerTop = document.createElement('div');
+    spacerTop.style.height = '180px';
+    const spacerBottom = document.createElement('div');
+    spacerBottom.style.height = '180px';
 
     fetch(url)
       .then(r => r.json())
       .then(data => {
         rounds = data.rounds || [];
-        // Build DOM
-        list.innerHTML = '';
+        container.appendChild(spacerTop);
+
         rounds.forEach((round, i) => {
-          const speakerShort = round.speaker.includes('female') ? '♀' : '♂';
+          const isMale = round.speaker.includes('male');
           const div = document.createElement('div');
-          div.className = 'transcript-line';
+          div.className = 'lyric-line';
           div.dataset.index = i;
-          div.innerHTML = `<span class="transcript-speaker">${speakerShort}</span>${round.text}`;
+          div.innerHTML =
+            '<span class="lyric-speaker ' + (isMale ? 'male' : 'female') + '"></span>' +
+            '<span class="lyric-text">' + round.text + '</span>';
           div.addEventListener('click', () => {
             audio.currentTime = round.start_time;
+            if (audio.paused) audio.play();
           });
-          list.appendChild(div);
-          lines.push(div);
+          container.appendChild(div);
+          lineEls.push(div);
         });
+
+        container.appendChild(spacerBottom);
       })
       .catch(() => {});
 
-    // Highlight current line
-    audio.addEventListener('timeupdate', () => {
-      if (!rounds || rounds.length === 0) return;
-      const t = audio.currentTime;
-
-      // Binary-ish search for current round
-      let activeIdx = -1;
-      for (let i = 0; i < rounds.length; i++) {
-        if (rounds[i].start_time <= t) {
-          activeIdx = i;
+    // Sticky player shadow on scroll
+    const playerWrap = document.querySelector('.episode-player-wrap');
+    if (playerWrap) {
+      container.addEventListener('scroll', () => {
+        if (container.scrollTop > 20) {
+          playerWrap.classList.add('sticky-audio');
         } else {
-          break;
-        }
-      }
-
-      lines.forEach((line, i) => {
-        if (i === activeIdx) {
-          line.classList.add('active');
-          // Auto-scroll: only if not manually scrolling
-          if (panel) {
-            const lineTop = line.offsetTop - panel.offsetTop;
-            const panelHeight = panel.clientHeight;
-            panel.scrollTop = lineTop - panelHeight / 2 + line.clientHeight / 2;
-          }
-        } else {
-          line.classList.remove('active');
+          playerWrap.classList.remove('sticky-audio');
         }
       });
+    }
+
+    // Highlight + auto-scroll
+    audio.addEventListener('timeupdate', () => {
+      if (rounds.length === 0) return;
+      const t = audio.currentTime;
+
+      let activeIdx = -1;
+      for (let i = 0; i < rounds.length; i++) {
+        if (rounds[i].start_time <= t) activeIdx = i;
+        else break;
+      }
+
+      lineEls.forEach((el, i) => {
+        el.classList.remove('active', 'near');
+        if (i === activeIdx) {
+          el.classList.add('active');
+        } else if (Math.abs(i - activeIdx) === 1) {
+          el.classList.add('near');
+        }
+      });
+
+      // Smooth scroll active line to center
+      if (activeIdx >= 0 && lineEls[activeIdx]) {
+        const el = lineEls[activeIdx];
+        const target = el.offsetTop - container.clientHeight / 2 + el.clientHeight / 2;
+        container.scrollTo({ top: target, behavior: 'smooth' });
+      }
     });
   }
 
