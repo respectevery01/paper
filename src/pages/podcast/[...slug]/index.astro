@@ -1,0 +1,112 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import BackButton from "@/components/BackButton.astro";
+
+export async function getStaticPaths() {
+  const episodes = await getCollection("podcast");
+  return episodes.map((ep) => ({
+    params: { slug: ep.id },
+    props: { episode: ep.data, content: ep.body },
+  }));
+}
+
+const { episode, content } = Astro.props;
+
+function formatDate(date: Date) {
+  return new Date(date).toLocaleDateString("zh-CN", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+---
+
+<Layout title={`${episode.title} · 链周志播客`}>
+  <Header />
+  <main id="main-content" class="mx-auto max-w-3xl px-5">
+    <BackButton href="/podcast/" text="播客" />
+    <article class="podcast-detail">
+      <p class="episode-num">EP {String(episode.episode).padStart(3, "0")} · S{episode.season}</p>
+      <h1 class="text-2xl font-bold sm:text-3xl mb-2">{episode.title}</h1>
+      <p class="episode-date">{formatDate(episode.pubDatetime)} · {episode.duration}</p>
+
+      <div class="episode-player-wrap">
+        <audio controls preload="metadata" src={episode.audioUrl}></audio>
+      </div>
+
+      <div class="episode-desc-text" set:html={content}>
+      </div>
+
+      {episode.articleSlug && (
+        <a href={`/posts/${episode.articleSlug}/`} class="episode-source-link">
+          ← 阅读原文
+        </a>
+      )}
+    </article>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .podcast-detail {
+    padding: 1.5rem 0 3rem;
+  }
+  .episode-num {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent, hsl(228 80% 60%));
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  .episode-date {
+    font-size: 0.85rem;
+    opacity: 0.55;
+    margin-bottom: 1.5rem;
+  }
+  .episode-player-wrap {
+    margin-bottom: 2rem;
+  }
+  .episode-player-wrap audio {
+    width: 100%;
+  }
+  .episode-desc-text {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    opacity: 0.85;
+  }
+  .episode-desc-text p {
+    margin-bottom: 1rem;
+  }
+  .episode-desc-text :global(h2) {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.75rem;
+  }
+  .episode-desc-text :global(ul) {
+    padding-left: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .episode-desc-text :global(li) {
+    margin-bottom: 0.3rem;
+  }
+  .episode-source-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--accent, hsl(228 80% 60%));
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: hsl(0 0% 96%);
+  }
+  .episode-source-link:hover {
+    background: hsl(0 0% 93%);
+  }
+  :global(.dark) .episode-source-link {
+    background: hsl(228 20% 14%);
+  }
+</style>
