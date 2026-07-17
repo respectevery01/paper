@@ -4,6 +4,7 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import { slugifyStr } from "@/utils/slugify";
+import { SITE } from "@/config";
 
 const episodes = (await getCollection("podcast"))
   .filter(({ data }) => !data.draft)
