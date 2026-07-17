@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import { slugifyStr } from "@/utils/slugify";
 
 const episodes = (await getCollection("podcast"))
   .filter(({ data }) => !data.draft)
@@ -57,7 +58,7 @@ function formatDate(date: Date) {
             <a href={`/podcast/${id}/`} class="episode-link">
               <div class="episode-number">EP {String(data.episode).padStart(3, "0")}</div>
               <div class="episode-body">
-                <h3 class="episode-title">{data.title}</h3>
+                <h3 transition:name={slugifyStr(data.title)} class="episode-title">{data.title}</h3>
                 <p class="episode-meta">
                   <span>{formatDate(data.pubDatetime)}</span>
                   <span>·</span>

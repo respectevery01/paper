@@ -4,6 +4,7 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import BackButton from "@/components/BackButton.astro";
+import { slugifyStr } from "@/utils/slugify";
 
 export async function getStaticPaths() {
   const episodes = await getCollection("podcast");
@@ -30,7 +31,7 @@ function formatDate(date: Date) {
     <BackButton href="/podcast/" text="播客" />
     <article class="podcast-detail">
       <p class="episode-num">EP {String(episode.episode).padStart(3, "0")} · S{episode.season}</p>
-      <h1 class="text-2xl font-bold sm:text-3xl mb-2">{episode.title}</h1>
+      <h1 transition:name={slugifyStr(episode.title)} class="text-2xl font-bold sm:text-3xl mb-2">{episode.title}</h1>
       <p class="episode-date">{formatDate(episode.pubDatetime)} · {episode.duration}</p>
 
       <div class="episode-player-wrap">
