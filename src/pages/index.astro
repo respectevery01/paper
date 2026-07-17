@@ -122,7 +122,7 @@ const recentWeekly = weeklyPosts.filter(({ data }) => !data.featured);
     {
       weeklyPosts.length > 0 && (
         <section id="weekly" class="pt-8 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">链周志 Vol</h2>
+          <h2 class="text-2xl font-semibold tracking-wide">周报</h2>
           <p class="text-sm opacity-60 mt-1 mb-4">每周一条 Web3 快评</p>
           <ul>
             {weeklyPosts.slice(0, SITE.postPerIndex).map(data => (
