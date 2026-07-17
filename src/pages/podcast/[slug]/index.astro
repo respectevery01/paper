@@ -63,20 +63,8 @@ function formatDate(date: Date) {
     letter-spacing: 0.05em; margin-bottom: 0.5rem;
   }
   .episode-date { font-size: 0.85rem; opacity: 0.55; margin-bottom: 1.5rem; }
-  .episode-player-wrap { margin-bottom: 0.5rem; position: sticky; top: 0; z-index: 10; }
+  .episode-player-wrap { margin-bottom: 1rem; }
   .episode-player-wrap audio { width: 100%; }
-  .episode-player-wrap.sticky-audio {
-    background: hsl(0 0% 100%);
-    padding: 0.5rem 0;
-    margin: 0 -1.25rem;
-    padding-left: 1.25rem; padding-right: 1.25rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  }
-  [data-theme="dark"] .episode-player-wrap.sticky-audio {
-    background: hsl(228 14% 11%);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-  }
   [data-theme="dark"] audio { filter: invert(0.92) hue-rotate(180deg); }
 
   /* ── Lyrics / transcript scroll ── */
@@ -188,17 +176,8 @@ function formatDate(date: Date) {
       })
       .catch(() => {});
 
-    // Sticky player shadow on scroll
-    const playerWrap = document.querySelector('.episode-player-wrap');
-    if (playerWrap) {
-      container.addEventListener('scroll', () => {
-        if (container.scrollTop > 20) {
-          playerWrap.classList.add('sticky-audio');
-        } else {
-          playerWrap.classList.remove('sticky-audio');
-        }
-      });
-    }
+    // Sticky player shadow on scroll — removed, causes layout issues
+    /* removed */
 
     // Highlight + auto-scroll
     audio.addEventListener('timeupdate', () => {
