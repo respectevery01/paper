@@ -40,7 +40,7 @@ function formatDate(date: Date) {
     <article class="podcast-detail">
       <p class="episode-num">EP {String(episode.episode).padStart(3, "0")} · S{episode.season}</p>
       <h1 transition:name={slugifyStr(episode.title)} class="text-2xl font-bold sm:text-3xl mb-2">{episode.title}</h1>
-      <p class="episode-date">{formatDate(episode.pubDatetime)} · {episode.duration}</p>
+      <p class="episode-date">{formatDate(episode.pubDatetime)} · 时长 {episode.duration}</p>
 
       <div class="episode-player-wrap">
         <audio id="podcast-audio" controls preload="metadata" src={episode.audioUrl}></audio>
