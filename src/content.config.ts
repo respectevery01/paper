@@ -3,6 +3,7 @@ import { glob } from "astro/loaders";
 import { SITE } from "@/config";
 
 export const BLOG_PATH = "src/data/blog";
+export const PODCAST_PATH = "src/data/podcast";
 
 const blog = defineCollection({
   loader: glob({ pattern: "**/[^_]*.md", base: `./${BLOG_PATH}` }),
@@ -24,4 +25,20 @@ const blog = defineCollection({
     }),
 });
 
-export const collections = { blog };
+const podcast = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.md", base: `./${PODCAST_PATH}` }),
+  schema: z.object({
+    episode: z.number(),
+    title: z.string(),
+    description: z.string(),
+    pubDatetime: z.date(),
+    audioUrl: z.string(),
+    duration: z.string(),
+    audioSize: z.number(),
+    articleSlug: z.string().optional(),
+    season: z.number().default(1),
+    draft: z.boolean().optional(),
+  }),
+});
+
+export const collections = { blog, podcast };

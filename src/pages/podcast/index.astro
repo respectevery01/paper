@@ -1,0 +1,208 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { SITE } from "@/config";
+
+const episodes = (await getCollection("podcast"))
+  .filter(({ data }) => !data.draft)
+  .sort((a, b) => b.data.episode - a.data.episode);
+
+const COVER_URL = "https://podcast-audio.2849288402.workers.dev/cover-3000.png";
+
+function formatDate(date: Date) {
+  return new Date(date).toLocaleDateString("zh-CN", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+---
+
+<Layout title="链周志播客 · 链周志">
+  <Header />
+  <main id="main-content" data-layout="index">
+    <section class="pt-8 pb-4">
+      <div class="podcast-hero">
+        <div class="podcast-cover-wrap">
+          <img
+            src={COVER_URL}
+            alt="链周志播客封面"
+            width="300"
+            height="300"
+            class="podcast-cover"
+            loading="eager"
+          />
+        </div>
+        <div class="podcast-hero-text">
+          <h1 class="text-3xl font-bold sm:text-4xl mb-2">链周志播客</h1>
+          <p class="opacity-70 text-sm mb-4">
+            穿透 Web3 噪音，抵达信号深处。每期由 AI 双主播以对话形式深度解读链周志文章。
+          </p>
+          <div class="podcast-platforms">
+            <a href="/podcast/rss.xml" class="podcast-sub-btn" title="RSS 订阅">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 10.1A9.9 9.9 0 0 1 13.9 20h-2.83A7.07 7.07 0 0 0 4 12.93V10.1m0-5.66A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44Z"/></svg>
+              RSS 订阅
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-8">
+      <h2 class="text-lg font-semibold mb-4 opacity-80">全部剧集</h2>
+      <ul class="podcast-episode-list">
+        {episodes.map(({ data, slug }) => (
+          <li class="podcast-episode-card" id={`ep-${data.episode}`}>
+            <div class="episode-number">EP {String(data.episode).padStart(3, "0")}</div>
+            <div class="episode-body">
+              <h3 class="episode-title">{data.title}</h3>
+              <p class="episode-meta">
+                <span>{formatDate(data.pubDatetime)}</span>
+                <span>·</span>
+                <span>{data.duration}</span>
+              </p>
+              <p class="episode-desc">{data.description}</p>
+              <div class="episode-player">
+                <audio controls preload="none" src={data.audioUrl}></audio>
+              </div>
+              {data.articleSlug && (
+                <a href={`/posts/${data.articleSlug}/`} class="episode-source-link">
+                  ← 阅读原文
+                </a>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .podcast-hero {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .podcast-cover-wrap {
+    flex-shrink: 0;
+  }
+  .podcast-cover {
+    width: 140px;
+    height: 140px;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    object-fit: cover;
+  }
+  .podcast-hero-text {
+    flex: 1;
+    min-width: 200px;
+  }
+  .podcast-platforms {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .podcast-sub-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    background: var(--accent, hsl(228 80% 60%));
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  .podcast-sub-btn:hover {
+    opacity: 0.85;
+  }
+
+  .podcast-episode-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    list-style: none;
+    padding: 0;
+  }
+  .podcast-episode-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    background: hsl(0 0% 96%);
+    transition: background 0.2s;
+  }
+  .podcast-episode-card:hover {
+    background: hsl(0 0% 93%);
+  }
+  :global(.dark) .podcast-episode-card {
+    background: hsl(228 20% 14%);
+  }
+  :global(.dark) .podcast-episode-card:hover {
+    background: hsl(228 20% 18%);
+  }
+  .episode-number {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent, hsl(228 80% 60%));
+    flex-shrink: 0;
+    padding-top: 0.15rem;
+    letter-spacing: 0.05em;
+  }
+  .episode-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .episode-title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 0.35rem;
+  }
+  .episode-meta {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    opacity: 0.55;
+    margin-bottom: 0.5rem;
+  }
+  .episode-desc {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    line-height: 1.55;
+    margin-bottom: 0.75rem;
+  }
+  .episode-player {
+    margin-bottom: 0.5rem;
+  }
+  .episode-player audio {
+    width: 100%;
+    height: 36px;
+  }
+  .episode-source-link {
+    font-size: 0.8rem;
+    color: var(--accent, hsl(228 80% 60%));
+    text-decoration: none;
+  }
+  .episode-source-link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 640px) {
+    .podcast-cover {
+      width: 100px;
+      height: 100px;
+    }
+    .podcast-episode-card {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>
