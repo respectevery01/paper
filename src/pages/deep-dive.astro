@@ -13,16 +13,18 @@ const deepDivePosts = sortedPosts.filter(({ data }) => data.series === "深潜")
 
 <Layout title="深潜 · 链周志">
   <Header />
-  <main id="main-content" class="pt-8 pb-6">
-    <section class="pt-4 pb-6">
+  <main id="main-content" data-layout="index">
+    <section id="hero" class="pt-8 pb-6">
       <h1 class="text-3xl font-bold sm:text-4xl mb-2">深潜</h1>
       <p class="opacity-60 text-sm">长文深度拆解，一刀切开看里面</p>
     </section>
-    <ul>
-      {deepDivePosts.map(data => (
-        <Card variant="h3" {...data} />
-      ))}
-    </ul>
+    <section class="pb-6">
+      <ul>
+        {deepDivePosts.map(data => (
+          <Card variant="h3" {...data} />
+        ))}
+      </ul>
+    </section>
   </main>
   <Footer />
 </Layout>

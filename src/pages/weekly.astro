@@ -13,16 +13,18 @@ const weeklyPosts = sortedPosts.filter(({ data }) => data.series === "链周志"
 
 <Layout title="链周志 Vol · 链周志">
   <Header />
-  <main id="main-content" class="pt-8 pb-6">
-    <section class="pt-4 pb-6">
+  <main id="main-content" data-layout="index">
+    <section id="hero" class="pt-8 pb-6">
       <h1 class="text-3xl font-bold sm:text-4xl mb-2">链周志 Vol</h1>
       <p class="opacity-60 text-sm">每周一条 Web3 快评</p>
     </section>
-    <ul>
-      {weeklyPosts.map(data => (
-        <Card variant="h3" {...data} />
-      ))}
-    </ul>
+    <section class="pb-6">
+      <ul>
+        {weeklyPosts.map(data => (
+          <Card variant="h3" {...data} />
+        ))}
+      </ul>
+    </section>
   </main>
   <Footer />
 </Layout>
