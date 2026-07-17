@@ -8,10 +8,15 @@ import { slugifyStr } from "@/utils/slugify";
 
 export async function getStaticPaths() {
   const episodes = await getCollection("podcast");
-  return episodes.map((ep) => ({
-    params: { slug: ep.id },
-    props: { episode: ep.data, Content: (await render(ep)).Content },
-  }));
+  const paths = [];
+  for (const ep of episodes) {
+    const { Content } = await render(ep);
+    paths.push({
+      params: { slug: ep.id },
+      props: { episode: ep.data, Content },
+    });
+  }
+  return paths;
 }
 
 const { episode, Content } = Astro.props;
