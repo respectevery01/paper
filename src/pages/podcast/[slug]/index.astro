@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
@@ -10,11 +10,11 @@ export async function getStaticPaths() {
   const episodes = await getCollection("podcast");
   return episodes.map((ep) => ({
     params: { slug: ep.id },
-    props: { episode: ep.data, content: ep.body },
+    props: { episode: ep.data, Content: (await render(ep)).Content },
   }));
 }
 
-const { episode, content } = Astro.props;
+const { episode, Content } = Astro.props;
 
 function formatDate(date: Date) {
   return new Date(date).toLocaleDateString("zh-CN", {
@@ -38,7 +38,9 @@ function formatDate(date: Date) {
         <audio id="podcast-audio" controls preload="metadata" src={episode.audioUrl}></audio>
       </div>
 
-      <div class="episode-desc-text" set:html={content}></div>
+      <div class="episode-desc-text">
+        <Content />
+      </div>
 
       {episode.articleSlug && (
         <a href={`/posts/${episode.articleSlug}/`} class="episode-source-link">
