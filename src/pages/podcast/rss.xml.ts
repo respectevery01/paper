@@ -7,7 +7,7 @@ export const GET: APIRoute = async ({ site }) => {
     .sort((a, b) => b.data.episode - a.data.episode);
 
   const PODCAST = {
-    title: "链周志播客",
+    title: "播客",
     subtitle: "穿透 Web3 噪音，抵达信号深处",
     author: "Jask",
     email: "hi@jask.dev",
