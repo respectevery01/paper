@@ -33,6 +33,7 @@ const podcast = defineCollection({
     description: z.string(),
     pubDatetime: z.date(),
     audioUrl: z.string(),
+    transcriptUrl: z.string().optional(),
     duration: z.string(),
     audioSize: z.number(),
     articleSlug: z.string().optional(),

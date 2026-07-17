@@ -4,8 +4,9 @@ title: "Story Protocol 之死：一个 2.16 亿美元 Web3 项目的叙事重生
 description: "从 IP 区块链到 AI 数据合规——Story Protocol 如何在创始人 Jason Zhao 离开后彻底重塑品牌？a16z 为何被绑架继续跟投？74 轮深度对话拆解 Web3 项目转型 AI 的教科书级操作。"
 pubDatetime: 2026-07-17T00:00:00Z
 audioUrl: "https://podcast.jask.dev/episodes/story-protocol-dead.mp3"
-duration: "18:32"
-audioSize: 14517468
+transcriptUrl: "https://podcast.jask.dev/episodes/story-protocol-dead.json"
+duration: "22:30"
+audioSize: 14822316
 articleSlug: "story-protocol-is-dead-data-foundation-reborn"
 season: 1
 ---

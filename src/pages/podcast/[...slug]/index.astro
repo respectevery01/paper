@@ -35,8 +35,14 @@ function formatDate(date: Date) {
       <p class="episode-date">{formatDate(episode.pubDatetime)} · {episode.duration}</p>
 
       <div class="episode-player-wrap">
-        <audio controls preload="metadata" src={episode.audioUrl}></audio>
+        <audio id="podcast-audio" controls preload="metadata" src={episode.audioUrl}></audio>
       </div>
+
+      {episode.transcriptUrl && (
+        <div id="transcript-panel" class="transcript-panel">
+          <div id="transcript-list" class="transcript-list" data-transcript-url={episode.transcriptUrl}></div>
+        </div>
+      )}
 
       <div class="episode-desc-text" set:html={content}>
       </div>
@@ -69,11 +75,68 @@ function formatDate(date: Date) {
     margin-bottom: 1.5rem;
   }
   .episode-player-wrap {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
   .episode-player-wrap audio {
     width: 100%;
   }
+
+  /* Transcript panel — karaoke/lyrics style */
+  .transcript-panel {
+    max-height: 420px;
+    overflow-y: auto;
+    border-radius: 0.75rem;
+    background: hsl(0 0% 96%);
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+  }
+  :global([data-theme="dark"]) .transcript-panel {
+    background: hsl(228 14% 10%);
+  }
+  .transcript-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .transcript-line {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: hsl(0 0% 45%);
+    transition: all 0.3s ease;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+  }
+  :global([data-theme="dark"]) .transcript-line {
+    color: hsl(0 0% 55%);
+  }
+  .transcript-line:hover {
+    color: hsl(0 0% 30%);
+    background: hsl(0 0% 92%);
+  }
+  :global([data-theme="dark"]) .transcript-line:hover {
+    color: hsl(0 0% 70%);
+    background: hsl(228 14% 14%);
+  }
+  .transcript-line.active {
+    color: var(--accent, hsl(228 80% 60%));
+    font-weight: 600;
+    background: hsl(0 0% 90%);
+    transform: scale(1.02);
+  }
+  :global([data-theme="dark"]) .transcript-line.active {
+    color: hsl(228 80% 75%);
+    background: hsl(228 14% 16%);
+  }
+  .transcript-speaker {
+    font-size: 0.7rem;
+    font-weight: 600;
+    opacity: 0.5;
+    margin-right: 0.4rem;
+  }
+
   .episode-desc-text {
     font-size: 0.9rem;
     line-height: 1.75;
@@ -120,15 +183,71 @@ function formatDate(date: Date) {
 </style>
 
 <script>
-  // Fix: re-init audio after Astro View Transitions swap
-  function initAudio() {
-    document.querySelectorAll('audio').forEach(a => {
-      const src = a.getAttribute('src');
-      if (src && !a.readyState) {
-        a.load();
+  function initTranscript() {
+    const audio = document.getElementById('podcast-audio');
+    const list = document.getElementById('transcript-list');
+    const panel = document.getElementById('transcript-panel');
+    if (!audio || !list) return;
+
+    let rounds = null;
+    let lines = [];
+
+    // Fetch transcript JSON
+    const url = list.dataset.transcriptUrl;
+    if (!url) return;
+
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        rounds = data.rounds || [];
+        // Build DOM
+        list.innerHTML = '';
+        rounds.forEach((round, i) => {
+          const speakerShort = round.speaker.includes('female') ? '♀' : '♂';
+          const div = document.createElement('div');
+          div.className = 'transcript-line';
+          div.dataset.index = i;
+          div.innerHTML = `<span class="transcript-speaker">${speakerShort}</span>${round.text}`;
+          div.addEventListener('click', () => {
+            audio.currentTime = round.start_time;
+          });
+          list.appendChild(div);
+          lines.push(div);
+        });
+      })
+      .catch(() => {});
+
+    // Highlight current line
+    audio.addEventListener('timeupdate', () => {
+      if (!rounds || rounds.length === 0) return;
+      const t = audio.currentTime;
+
+      // Binary-ish search for current round
+      let activeIdx = -1;
+      for (let i = 0; i < rounds.length; i++) {
+        if (rounds[i].start_time <= t) {
+          activeIdx = i;
+        } else {
+          break;
+        }
       }
+
+      lines.forEach((line, i) => {
+        if (i === activeIdx) {
+          line.classList.add('active');
+          // Auto-scroll: only if not manually scrolling
+          if (panel) {
+            const lineTop = line.offsetTop - panel.offsetTop;
+            const panelHeight = panel.clientHeight;
+            panel.scrollTop = lineTop - panelHeight / 2 + line.clientHeight / 2;
+          }
+        } else {
+          line.classList.remove('active');
+        }
+      });
     });
   }
-  initAudio();
-  document.addEventListener('astro:after-swap', initAudio);
+
+  initTranscript();
+  document.addEventListener('astro:after-swap', initTranscript);
 </script>
