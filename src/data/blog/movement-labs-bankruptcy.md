@@ -1,18 +1,18 @@
 ---
 author: Jask
 pubDatetime: 2026-07-23T01:00:00.000Z
-title: Movement 之死：1.41 亿美元融资、30 亿美元估值、破产时资产不到 50 万
-slug: movement-labs-bankruptcy-141m-funding-to-zero
+title: 链周志 Vol.5｜Movement 破产了——1.41 亿融资换来每天 1 美元手续费
+slug: linklog-vol5-movement-bankruptcy
 featured: true
 draft: false
-series: 深潜
+series: 链周志
 tags:
   - Movement Labs
   - MOVE
   - 破产
   - Layer 2
   - 做市商
-description: 2026 年 7 月 15 日，MVMT Labs（Movement 区块链的原始开发公司）在特拉华州申请 Chapter 11 破产保护。资产 10-50 万美元，负债 100-1000 万美元。这家公司一年半前还在以 30 亿美元估值融 1 亿美元。从 Binance 上币首日做市商砸盘 6600 万代币、到联合创始人被开除、到日链上手续费 1 美元——这是一个关于"钱解决不了所有问题"的案例。
+description: 30 亿美元估值的 Layer 2 项目 Movement 申请了 Chapter 11 破产。做市商首日砸盘 6600 万代币、联合创始人被开除、日链上手续费 1 美元——1.41 亿美元买到了什么？
 ---
 
 > 2026 年 7 月 15 日，MVMT Labs 在特拉华州破产法院提交了 Chapter 11 申请。法庭文件显示，这家公司资产在 10 万到 50 万美元之间，负债在 100 万到 1000 万美元之间。6 天后消息公开时，MOVE 代币跌到 $0.0106——比历史高点跌了 99.3%。
