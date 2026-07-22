@@ -1,6 +1,6 @@
 ---
 author: Jask
-pubDatetime: 2026-07-23T01:00:00.000Z
+pubDatetime: 2026-07-22T17:00:00.000Z
 title: 链周志 Vol.5｜Movement 破产了——1.41 亿融资换来每天 1 美元手续费
 slug: linklog-vol5-movement-bankruptcy
 featured: true
