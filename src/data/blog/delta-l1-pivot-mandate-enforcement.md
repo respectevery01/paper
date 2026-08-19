@@ -1,6 +1,6 @@
 ---
 author: Jask
-pubDatetime: 2026-08-19T10:00:00.000Z
+pubDatetime: 2026-08-19T09:00:00.000Z
 title: 买错率 27.3% 到 0：一家 Web3 L1 团队转型给 AI 购物当保安
 slug: delta-l1-pivot-mandate-enforcement
 featured: true
