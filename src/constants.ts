@@ -25,6 +25,12 @@ export const SOCIALS: Social[] = [
     icon: IconBrandX,
   },
   {
+    name: "Telegram",
+    href: "https://t.me/jaskdonplanet",
+    linkTitle: `Join ${SITE.title} Telegram channel`,
+    icon: IconTelegram,
+  },
+  {
     name: "Mail",
     href: "mailto:hi@jask.dev",
     linkTitle: `Send an email to ${SITE.title}`,
