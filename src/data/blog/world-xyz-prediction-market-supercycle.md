@@ -1,6 +1,6 @@
 ---
 author: Jask
-pubDatetime: 2026-09-04T09:00:00.000Z
+pubDatetime: 2026-09-03T15:00:00.000Z
 title: 500 亿美元的夏天：预测市场超级周期，和三个叫 World 的玩家
 slug: world-xyz-prediction-market-supercycle
 featured: true
