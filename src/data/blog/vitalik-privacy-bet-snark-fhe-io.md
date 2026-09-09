@@ -1,6 +1,6 @@
 ---
 author: Jask
-pubDatetime: 2026-09-09T03:00:00.000Z
+pubDatetime: 2026-09-09T02:30:00.000Z
 title: V 神的十年赌注：60% 概率，密码学开销降十倍，隐私成默认
 slug: vitalik-privacy-bet-snark-fhe-io
 featured: true
