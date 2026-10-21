@@ -1,0 +1,5 @@
+# weekly.jask.dev has merged into jask.dev — permanent redirects (2026-10-22)
+/posts/:splat/    https://jask.dev/zh/weekly/:splat/     301
+/posts/:splat     https://jask.dev/zh/weekly/:splat/      301
+/posts/           https://jask.dev/zh/weekly/             301
+/*                https://jask.dev/zh/weekly/             301
