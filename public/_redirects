@@ -2,4 +2,5 @@
 /posts/:splat/    https://jask.dev/zh/weekly/:splat/     301
 /posts/:splat     https://jask.dev/zh/weekly/:splat/      301
 /posts/           https://jask.dev/zh/weekly/             301
+/rss.xml          https://jask.dev/rss.xml                301
 /*                https://jask.dev/zh/weekly/             301
